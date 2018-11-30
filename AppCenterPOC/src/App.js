@@ -7,8 +7,10 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import { Platform, StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
 import codePush from "react-native-code-push";
+import Analytics from "appcenter-analytics";
+import Crashes from "appcenter-crashes";
 
 const instructions = Platform.select({
   ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
@@ -28,7 +30,20 @@ class App extends Component {
     }
   }
 
-  onButtonPress = () => {
+  sendEvent = () => {
+    Analytics.trackEvent("Custom event", { firstName: "Sam", lastName: "Po"});
+  };
+
+  nativeCrash = () => {
+    Crashes.generateTestCrash();
+  };
+
+  jsCrash = () => {
+    throw new Error("JS CRASHED");
+  };
+
+
+  codePushSync = () => {
     codePush.sync({
         installMode: codePush.InstallMode.IMMEDIATE
       },
@@ -61,9 +76,10 @@ class App extends Component {
         <Text style={styles.welcome}>Welcome to App Center POC!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
-        <TouchableOpacity onPress={this.onButtonPress}>
-          <Text>Install available updates.</Text>
-        </TouchableOpacity>
+        <Button title="Send Event" onPress={this.sendEvent} />
+        <Button title="Native Crash" onPress={this.nativeCrash} />
+        <Button title="JS Crash" onPress={this.jsCrash} />
+        <Button title="CodePush Sync" onPress={this.codePushSync} />
         <Text>{codePushMessage}</Text>
         {totalBytes && <Text>Progress {receivedBytes} / {totalBytes}</Text>}
       </View>
