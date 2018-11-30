@@ -101,14 +101,16 @@ class App extends Component {
         <Text style={styles.welcome}>Welcome to App Center POC!</Text>
         <Text style={styles.instructions}>To get started, edit App.js</Text>
         <Text style={styles.instructions}>{instructions}</Text>
-        <Button title="Send Event" onPress={this.sendEvent} />
-        <Button title="Native Crash" onPress={this.nativeCrash} />
-        <Button title="JS Crash" onPress={this.wrapJsCrash} />
-        <Button title="CodePush Sync" onPress={this.codePushSync} />
+        <Button style={styles.actionButton} title="Send Event" onPress={this.sendEvent} />
+        <Button style={styles.actionButton} title="Native Crash" onPress={this.nativeCrash} />
+        <Button style={styles.actionButton} title="JS Crash" onPress={this.wrapJsCrash} />
+        <Button style={styles.actionButton} title="CodePush Sync" onPress={this.codePushSync} />
         <Text>{codePushMessage}</Text>
         {totalBytes && <Text>Progress {receivedBytes} / {totalBytes}</Text>}
 
-        <Text>I added via a codepush updated!</Text>
+        <View style={styles.updateContainer}>
+          <Text style={styles.updateMessage}>This is an UPDATE</Text>
+        </View>
       </View>
     );
   }
@@ -122,6 +124,17 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F5FCFF',
+  },
+  actionButton: {
+    margin: 5
+  },
+  updateContainer: {
+    backgroundColor: '#47A4FF'
+  },
+  updateMessage: {
+    fontSize: 30,
+    textAlign: 'center',
+    margin: 10
   },
   welcome: {
     fontSize: 20,
