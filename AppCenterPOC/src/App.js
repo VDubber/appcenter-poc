@@ -109,7 +109,7 @@ class App extends Component {
         {totalBytes && <Text>Progress {receivedBytes} / {totalBytes}</Text>}
 
         <View style={styles.updateContainer}>
-          <Text style={styles.updateMessage}>This is an UPDATE</Text>
+          <Text style={styles.updateMessage}>This is a MANDATORY UPDATE</Text>
         </View>
       </View>
     );
