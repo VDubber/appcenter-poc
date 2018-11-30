@@ -32,9 +32,9 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
-            new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
-            new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
-          new CodePush("r5V6YLCHoFDYzYLkzsbDiGqarsuJrkWVvfih0m", getApplicationContext(), BuildConfig.DEBUG)
+          new AppCenterReactNativeCrashesPackage(MainApplication.this, getResources().getString(R.string.appCenterCrashes_whenToSendCrashes)),
+          new AppCenterReactNativeAnalyticsPackage(MainApplication.this, getResources().getString(R.string.appCenterAnalytics_whenToEnableAnalytics)),
+          new CodePush("T3p55KMxRlLP2S3r7S-eUZjhPwroSJfTNykJE", getApplicationContext(), BuildConfig.DEBUG)
       );
     }
 
