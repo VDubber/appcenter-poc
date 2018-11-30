@@ -35,21 +35,40 @@ class App extends Component {
   };
 
   nativeCrash = () => {
-    Crashes.generateTestCrash();
+    await Crashes.generateTestCrash();
   };
 
-  jsCrash = () => {
-    throw new Error("JS CRASHED");
+  wrapJsCrash = () => {
+    this.wrapper1();
   };
+
+  wrapper1() {
+    this.wrapper2();
+  }
+
+  wrapper2() {
+    this.jsCrash();
+  }
+
+  jsCrash() {
+    throw new Error("JS CRASHED");
+  }
 
 
   codePushSync = () => {
     codePush.sync({
+        updateDialog: true,
         installMode: codePush.InstallMode.IMMEDIATE
       },
       (status) => {
        console.warn("syncStatusChangedCallback");
         switch (status) {
+          case codePush.SyncStatus.CHECKING_FOR_UPDATE:
+            this.setState({codePushMessage: "Checking for updates..."});
+            break;
+          case codePush.SyncStatus.UP_TO_DATE:
+            this.setState({codePushMessage: "Up to date!"});
+            break;
           case codePush.SyncStatus.DOWNLOADING_PACKAGE:
             this.setState({codePushMessage: "Fetching parcels..."});
             break;
@@ -78,12 +97,13 @@ class App extends Component {
         <Text style={styles.instructions}>{instructions}</Text>
         <Button title="Send Event" onPress={this.sendEvent} />
         <Button title="Native Crash" onPress={this.nativeCrash} />
-        <Button title="JS Crash" onPress={this.jsCrash} />
+        <Button title="JS Crash" onPress={this.wrapJsCrash} />
         <Button title="CodePush Sync" onPress={this.codePushSync} />
         <Text>{codePushMessage}</Text>
         {totalBytes && <Text>Progress {receivedBytes} / {totalBytes}</Text>}
 
         <Text>Added with CodePush Magic</Text>
+        <Text>Added with CodePush Magic 2</Text>
       </View>
     );
   }
