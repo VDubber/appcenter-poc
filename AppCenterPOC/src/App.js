@@ -7,7 +7,7 @@
  */
 
 import React, { Component } from 'react';
-import { Platform, StyleSheet, Text, View, TouchableOpacity, Button } from 'react-native';
+import { Platform, StyleSheet, Text, View, Button } from 'react-native';
 import codePush from "react-native-code-push";
 import Analytics from "appcenter-analytics";
 import Crashes from "appcenter-crashes";
@@ -35,7 +35,7 @@ class App extends Component {
   };
 
   nativeCrash = () => {
-    await Crashes.generateTestCrash();
+    Crashes.generateTestCrash();
   };
 
   wrapJsCrash = () => {
@@ -51,7 +51,7 @@ class App extends Component {
   }
 
   jsCrash() {
-    throw new Error("JS CRASHED");
+    throw new Error("JS CRASHED, what should we do??");
   }
 
 
@@ -74,6 +74,12 @@ class App extends Component {
             break;
           case codePush.SyncStatus.INSTALLING_UPDATE:
             this.setState({codePushMessage: "Opening & installing parcels...", receivedBytes: null, totalBytes: null});
+            break;
+          case codePush.SyncStatus.AWAITING_USER_ACTION:
+            this.setState({codePushMessage: "Awaiting your action..."});
+            break;
+          case codePush.SyncStatus.UNKNOWN_ERROR:
+            this.setState({codePushMessage: "Error... And Unknown!"});
             break;
         }
       },
@@ -101,9 +107,6 @@ class App extends Component {
         <Button title="CodePush Sync" onPress={this.codePushSync} />
         <Text>{codePushMessage}</Text>
         {totalBytes && <Text>Progress {receivedBytes} / {totalBytes}</Text>}
-
-        <Text>Added with CodePush Magic</Text>
-        <Text>Added with CodePush Magic 2</Text>
       </View>
     );
   }
