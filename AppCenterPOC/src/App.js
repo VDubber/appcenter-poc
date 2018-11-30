@@ -107,6 +107,8 @@ class App extends Component {
         <Button title="CodePush Sync" onPress={this.codePushSync} />
         <Text>{codePushMessage}</Text>
         {totalBytes && <Text>Progress {receivedBytes} / {totalBytes}</Text>}
+
+        <Text>I added via a codepush updated!</Text>
       </View>
     );
   }
