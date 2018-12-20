@@ -25,9 +25,19 @@ class App extends Component {
     super();
     this.state = {
       codePushMessage: "",
+      newVersionMessage: "",
       receivedBytes: null,
       totalBytes: null
     }
+  }
+
+  componentDidMount() {
+    codePush.getUpdateMetadata().then(updateMetadata => {
+      if (updateMetadata) {
+        console.warn(updateMetadata);
+        this.setState({ updateMetadata });
+      }
+    })
   }
 
   sendEvent = () => {
@@ -90,12 +100,12 @@ class App extends Component {
       () => {
         console.warn("handleBinaryVersionMismatchCallback");
         // Called when there are any binary updates available.
-        this.setState({codePushMessage: "Please fetch the app overhaul from the app store."});
+        this.setState({newVersionMessage: "Please fetch the app overhaul from the app store."});
       });
   };
 
   render() {
-    const { codePushMessage, receivedBytes, totalBytes } = this.state;
+    const { codePushMessage, newVersionMessage, receivedBytes, totalBytes, updateMetadata } = this.state;
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>Welcome to App Center POC!</Text>
@@ -109,8 +119,12 @@ class App extends Component {
         {totalBytes && <Text>Progress {receivedBytes} / {totalBytes}</Text>}
 
         <View style={styles.updateContainer}>
-          <Text style={styles.updateMessage}>This is a MANDATORY UPDATE</Text>
+          <Text style={styles.updateMessage}>{newVersionMessage}</Text>
+          <Text style={styles.updateMessage}>DEC 20 15:08</Text>
         </View>
+        {updateMetadata && <View style={styles.updateContainer}>
+          <Text>{JSON.stringify(updateMetadata)}</Text>
+        </View>}
       </View>
     );
   }
